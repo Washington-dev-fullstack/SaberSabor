@@ -1,0 +1,47 @@
+/* =========================================================
+   TOKENS: a identidade "Feira" em variáveis
+   ========================================================= */
+:root {
+    /* Cores */
+    --papel: #F1E8D8;
+    --papel-claro: #FFFDF8;
+    --papel-xadrez: #F6EFE3;
+    --tinta: #1E1B16;
+    --tinta-suave: #6E6252;      /* 4,9:1 no papel: legendas e rótulos */
+    --tomate: #E2412B;           /* só texto grande e UI (4,3:1) */
+    --tomate-escuro: #C2321F;    /* texto pequeno em tomate (4,6:1) */
+    --creme-tomate: #FFF4EA;
+    --mostarda: #E8B53A;
+    --oliva: #3E4A1F;
+    --limao: #C9D86B;
+    --linha: rgba(30, 27, 22, 0.1);
+    --linha-forte: rgba(30, 27, 22, 0.18);
+
+    /* Tipografia */
+    --fonte-titulo: 'Funnel Display', 'Funnel Sans', system-ui, sans-serif;
+    --fonte-texto: 'Funnel Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    --tamanho-titulo: clamp(2.6rem, 1.2rem + 6.2vw, 6.6rem);
+    --tamanho-secao: clamp(2rem, 1.2rem + 3.2vw, 3.4rem);
+    --tamanho-slogan: clamp(2.4rem, 1rem + 5.6vw, 5.6rem);
+
+    /* Formas */
+    --raio-p: 10px;
+    --raio-m: 16px;
+    --raio-g: 24px;
+    --raio-pilula: 999px;
+    --sombra-papel: 0 22px 40px -22px rgba(60, 40, 20, 0.5), 0 2px 6px rgba(60, 40, 20, 0.08);
+    --sombra-papel-alta: 0 34px 60px -26px rgba(60, 40, 20, 0.55), 0 4px 10px rgba(60, 40, 20, 0.1);
+    --sombra-painel: 0 24px 60px -30px rgba(90, 60, 30, 0.35);
+
+    /* Espaço */
+    --margem: clamp(16px, 4vw, 48px);
+    --largura: 1240px;
+    --secao: clamp(72px, 10vw, 140px);
+
+    /* Movimento */
+    --mola: cubic-bezier(0.34, 1.56, 0.64, 1);
+    --saida: cubic-bezier(0.22, 1, 0.36, 1);
+
+    /* Grão de papel */
+    --grao: radial-gradient(rgba(90, 60, 30, 0.13) 0.6px, transparent 0.75px);
+}

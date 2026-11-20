@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Saber Sabor · Qual é a sua fome hoje?</title>
+    <meta name="description" content="Monte sua fome com o que você ama e o que não pode comer, e encontre receitas fáceis que combinam com você.">
+    <meta name="theme-color" content="#F1E8D8">
+    <link rel="icon" type="image/svg+xml" href="img/favicon.svg">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://images.unsplash.com">
+    <link href="https://fonts.googleapis.com/css2?family=Funnel+Display:wght@300..800&family=Funnel+Sans:wght@300..800&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/tokens.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/componentes.css">
+    <link rel="stylesheet" href="css/secoes.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/Flip.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.13.0/ScrollTrigger.min.js" defer></script>
+
+    <script src="js/dados.js" defer></script>
+    <script src="js/motor.js" defer></script>
+    <script src="js/armazenamento.js" defer></script>
+    <script src="js/ui/util.js" defer></script>
+    <script src="js/ui/movimento.js" defer></script>
+    <script src="js/ui/aviso.js" defer></script>
+    <script src="js/ui/painel.js" defer></script>
+    <script src="js/ui/resultados.js" defer></script>
+    <script src="js/ui/busca.js" defer></script>
+    <script src="js/ui/gaveta.js" defer></script>
+    <script src="js/ui/caderno.js" defer></script>
+    <script src="js/ui/faixa.js" defer></script>
+    <script src="js/main.js" defer></script>
+</head>
+<body>
+    <a class="pular" href="#painel">Pular para o painel de busca</a>
+
+    <!-- Etiqueta da logo (reaproveitada no topo e no rodapé) -->
+    <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <symbol id="etiqueta" viewBox="0 0 52 42">
+            <path d="M13 7 H44 a4 4 0 0 1 4 4 V31 a4 4 0 0 1 -4 4 H13 L3 21 Z" fill="#E8B53A"/>
+            <circle class="etiqueta-furo" cx="12" cy="21" r="2.4"/>
+            <text x="31" y="27.5" font-family="Funnel Display, sans-serif" font-weight="800" font-size="17" letter-spacing="-0.5" text-anchor="middle" fill="#1E1B16">ss</text>
+        </symbol>
+    </svg>
+
+    <header class="topo">
+        <nav class="nav conteiner" aria-label="Principal">
+            <a class="marca" href="#inicio" aria-label="Saber Sabor, voltar ao início">
+                <svg class="marca-etiqueta" width="44" height="36" aria-hidden="true"><use href="#etiqueta"/></svg>
+                <span class="marca-nome">saber sabor</span>
+            </a>
+            <button class="nav-botao" type="button" aria-expanded="false" aria-controls="nav-lista">
+                <span class="visualmente-oculto">Abrir menu</span>
+                <span class="nav-botao-traco" aria-hidden="true"></span>
+            </button>
+            <ul class="nav-lista" id="nav-lista">
+                <li><a href="#inicio">Monte sua fome</a></li>
+                <li><a href="#como-funciona">Como funciona</a></li>
+                <li><a href="#caderno">Caderno de receitas</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main id="conteudo">
+        <!-- ===================== ABERTURA + PAINEL ===================== -->
+        <section class="abertura" id="inicio" aria-labelledby="titulo-principal">
+            <div class="conteiner">
+                <h1 class="abertura-titulo" id="titulo-principal">
+                    <span class="t-linha">Qual é a sua fome</span>
+                    <em class="t-destaque">hoje?</em>
+                </h1>
+                <p class="abertura-sub">Toque no que você ama e no que não pode. Os pratos se reorganizam na hora.</p>
+
+                <div class="painel" id="painel" tabindex="-1">
+                    <div class="painel-topo">
+                        <h2 class="rotulo painel-titulo">Monte sua fome</h2>
+                        <div class="busca">
+                            <label class="visualmente-oculto" for="busca">Buscar prato pelo nome</label>
+                            <svg class="busca-lupa" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="M20 20l-4.8-4.8"/></svg>
+                            <input id="busca" class="busca-campo" type="text" placeholder="Buscar prato pelo nome" autocomplete="off" spellcheck="false"
+                                role="combobox" aria-expanded="false" aria-controls="busca-lista" aria-autocomplete="list">
+                            <kbd class="busca-atalho" aria-hidden="true">/</kbd>
+                            <ul class="busca-lista" id="busca-lista" role="listbox" aria-label="Pratos encontrados" hidden></ul>
+                        </div>
+                    </div>
+
+                    <div class="painel-linhas">
+                        <div class="linha">
+                            <span class="rotulo" id="rotulo-vontades">Vontade</span>
+                            <div class="chips" role="group" aria-labelledby="rotulo-vontades" data-grupo="vontades"></div>
+                        </div>
+                        <div class="linha">
+                            <span class="rotulo" id="rotulo-com">Com</span>
+                            <div class="chips" role="group" aria-labelledby="rotulo-com" data-grupo="com"></div>
+                        </div>
+                        <div class="linha">
+                            <span class="rotulo" id="rotulo-sem">Sem</span>
+                            <div class="chips" role="group" aria-labelledby="rotulo-sem" data-grupo="sem"></div>
+                        </div>
+                        <div class="linha linha-dupla">
+                            <div class="sublinha">
+                                <span class="rotulo" id="rotulo-tempo">Tempo</span>
+                                <div class="segmento" role="group" aria-labelledby="rotulo-tempo" data-grupo="tempo"></div>
+                            </div>
+                            <div class="sublinha">
+                                <span class="rotulo" id="rotulo-preco">Bolso</span>
+                                <div class="segmento" role="group" aria-labelledby="rotulo-preco" data-grupo="preco"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="painel-rodape">
+                        <span class="salvo" aria-live="polite"><i aria-hidden="true">✓</i> <span class="salvo-texto">Seus "Com" e "Sem" ficam salvos neste navegador</span></span>
+                        <button class="link-discreto" type="button" data-acao="limpar">Limpar tudo</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== PRATOS QUE COMBINAM ===================== -->
+        <section class="resultados" id="pratos" aria-labelledby="resultados-titulo">
+            <div class="conteiner">
+                <div class="resultados-cab">
+                    <h2 class="resultados-titulo" id="resultados-titulo" aria-live="polite"></h2>
+                    <p class="resultados-dica"></p>
+                </div>
+                <div class="mesa">
+                    <ul class="grade" id="grade"></ul>
+                    <div class="vazio" id="vazio" hidden>
+                        <div class="vazio-prato" aria-hidden="true">?</div>
+                        <h3 class="vazio-titulo">Nenhum prato passou <em>na peneira</em></h3>
+                        <p class="vazio-texto">Tem filtro demais para o caderno de hoje. Experimente tirar um:</p>
+                        <div class="vazio-sugestoes"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===================== COMO FUNCIONA ===================== -->
+        <section class="como" id="como-funciona" aria-labelledby="como-titulo">
+            <div class="conteiner">
+                <p class="sobretitulo" data-revelar>como funciona</p>
+                <h2 class="secao-titulo" id="como-titulo" data-revelar>Três passos até o <em>prato certo</em></h2>
+                <ol class="passos">
+                    <li class="passo passo-1" data-passo>
+                        <span class="passo-num" aria-hidden="true">1</span>
+                        <h3 class="passo-titulo">Conte o que você ama</h3>
+                        <p>Toque em vontades como "cremoso" e em ingredientes como frango ou queijo. Cada acerto soma pontos.</p>
+                    </li>
+                    <li class="passo passo-2" data-passo>
+                        <span class="passo-num" aria-hidden="true">2</span>
+                        <h3 class="passo-titulo">Diga o que não pode</h3>
+                        <p>Alergias e restrições saem da lista na hora. "Sem lactose" já sabe que queijo e creme de leite estão fora.</p>
+                    </li>
+                    <li class="passo passo-3" data-passo>
+                        <span class="passo-num" aria-hidden="true">3</span>
+                        <h3 class="passo-titulo">Receba pratos fáceis</h3>
+                        <p>Cada prato mostra quanto combina com você, o tempo, o preço e um passo a passo curto.</p>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <!-- ===================== FAIXA DE VONTADES ===================== -->
+        <div class="faixa" role="region" aria-label="Atalhos de vontade">
+            <div class="faixa-trilho"></div>
+        </div>
+
+        <!-- ===================== CADERNO DE RECEITAS ===================== -->
+        <section class="caderno" id="caderno" aria-labelledby="caderno-titulo">
+            <div class="conteiner">
+                <div class="caderno-cab">
+                    <div>
+                        <p class="sobretitulo" data-revelar>o catálogo inteiro</p>
+                        <h2 class="secao-titulo" id="caderno-titulo" data-revelar>Caderno de <em>receitas</em></h2>
+                    </div>
+                    <button class="botao botao-escuro" type="button" data-acao="nova-receita">+ Nova receita</button>
+                </div>
+                <div class="filtros-rapidos" role="group" aria-label="Filtrar o caderno"></div>
+                <ul class="lista" id="lista"></ul>
+                <p class="caderno-rodape"><button class="link-discreto" type="button" data-acao="restaurar">restaurar caderno original</button></p>
+            </div>
+        </section>
+    </main>
+
+    <!-- ===================== RODAPÉ ===================== -->
+    <footer class="rodape">
+        <div class="conteiner">
+            <p class="rodape-slogan">Sua fome tem um<br><em>caminho certo.</em></p>
+            <div class="rodape-base">
+                <a class="marca marca-clara" href="#inicio" aria-label="Saber Sabor, voltar ao início">
+                    <svg class="marca-etiqueta" width="38" height="31" aria-hidden="true"><use href="#etiqueta"/></svg>
+                    <span class="marca-nome">saber sabor</span>
+                </a>
+                <nav aria-label="Rodapé">
+                    <ul class="rodape-links">
+                        <li><a href="#inicio">Monte sua fome</a></li>
+                        <li><a href="#como-funciona">Como funciona</a></li>
+                        <li><a href="#caderno">Caderno de receitas</a></li>
+                    </ul>
+                </nav>
+                <p class="rodape-credito">© 2026 Saber Sabor · fotos: <a href="https://unsplash.com" rel="noopener" target="_blank">Unsplash</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ===================== GAVETA: DETALHE DA RECEITA ===================== -->
+    <dialog class="gaveta" id="gaveta" aria-labelledby="gaveta-nome">
+        <div class="gaveta-foto"></div>
+        <button class="fechar" type="button" data-acao="fechar"><span class="visualmente-oculto">Fechar receita</span><span aria-hidden="true">✕</span></button>
+        <div class="gaveta-conteudo">
+            <h2 class="gaveta-nome" id="gaveta-nome"></h2>
+            <ul class="gaveta-meta"></ul>
+            <div class="gaveta-motivo">
+                <h3 class="rotulo">Por que combina</h3>
+                <ul class="gaveta-motivos"></ul>
+            </div>
+            <div class="gaveta-colunas">
+                <section>
+                    <h3 class="rotulo">Ingredientes</h3>
+                    <ul class="gaveta-itens"></ul>
+                </section>
+                <section>
+                    <h3 class="rotulo">Preparo</h3>
+                    <ol class="gaveta-preparo"></ol>
+                </section>
+            </div>
+        </div>
+    </dialog>
+
+    <!-- ===================== JANELA: NOVA RECEITA ===================== -->
+    <dialog class="janela" id="janela-receita" aria-labelledby="janela-titulo">
+        <form class="form" id="form-receita" novalidate>
+            <div class="janela-cab">
+                <h2 class="janela-titulo" id="janela-titulo">Nova receita</h2>
+                <button class="fechar fechar-claro" type="button" data-acao="fechar"><span class="visualmente-oculto">Fechar</span><span aria-hidden="true">✕</span></button>
+            </div>
+
+            <div class="campo">
+                <label for="f-nome">Nome do prato</label>
+                <input id="f-nome" name="nome" type="text" maxlength="80" aria-describedby="f-nome-erro">
+                <p class="campo-erro" id="f-nome-erro"></p>
+            </div>
+
+            <div class="campo">
+                <label for="f-ingrediente">Ingredientes</label>
+                <div class="campo-chips" data-campo="ingredientes">
+                    <input id="f-ingrediente" type="text" placeholder="digite e aperte Enter…" aria-describedby="f-ingredientes-erro">
+                </div>
+                <p class="campo-erro" id="f-ingredientes-erro"></p>
+            </div>
+
+            <fieldset class="campo">
+                <legend>Vontades</legend>
+                <div class="chips chips-form" data-campo="vontades"></div>
+            </fieldset>
+
+            <div class="campos-tres">
+                <div class="campo">
+                    <label for="f-tempo">Tempo (min)</label>
+                    <input id="f-tempo" name="tempo" type="number" min="1" step="1" inputmode="numeric" aria-describedby="f-tempo-erro">
+                    <p class="campo-erro" id="f-tempo-erro"></p>
+                </div>
+                <div class="campo">
+                    <label for="f-dificuldade">Dificuldade</label>
+                    <select id="f-dificuldade" name="dificuldade">
+                        <option value="fácil">fácil</option>
+                        <option value="média">média</option>
+                        <option value="difícil">difícil</option>
+                    </select>
+                </div>
+                <div class="campo">
+                    <label for="f-custo">Preço (R$)</label>
+                    <input id="f-custo" name="custo" type="number" min="1" step="1" inputmode="numeric" aria-describedby="f-custo-erro">
+                    <p class="campo-erro" id="f-custo-erro"></p>
+                </div>
+            </div>
+
+            <div class="campo">
+                <label for="f-preparo">Modo de preparo <span>· um passo por linha</span></label>
+                <textarea id="f-preparo" name="preparo" rows="4" placeholder="Cozinhe a mandioca até desmanchar…"></textarea>
+            </div>
+
+            <div class="campo">
+                <label for="f-foto">Foto <span>· link opcional</span></label>
+                <input id="f-foto" name="foto" type="url" placeholder="https://…" aria-describedby="f-foto-erro">
+                <p class="campo-erro" id="f-foto-erro"></p>
+            </div>
+
+            <div class="janela-acoes">
+                <button class="link-discreto" type="button" data-acao="fechar">Cancelar</button>
+                <button class="botao botao-tomate" type="submit">Salvar no caderno</button>
+            </div>
+        </form>
+    </dialog>
+
+    <!-- ===================== AVISO (desfazer) ===================== -->
+    <div class="aviso" id="aviso" role="status" aria-live="polite" hidden>
+        <span class="aviso-texto"></span>
+        <button class="aviso-acao" type="button"></button>
+        <span class="aviso-barra" aria-hidden="true"></span>
+    </div>
+</body>
+</html>
